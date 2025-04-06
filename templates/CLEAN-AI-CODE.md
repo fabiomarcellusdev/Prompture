@@ -1,6 +1,11 @@
 # 🧠 Clean AI Code – Development Rules & AI Collaboration Guide
 
-This document provides comprehensive guidelines for AI-assisted development. For quick reference, focus on the sections marked with ⚡️.
+This document provides comprehensive guidelines for AI-assisted development. You have two options for using this document:
+
+1. **Quick Reference (⚡️):** Use only the Quick Start Guide section (marked with ⚡️) for essential, immediate actions. This is recommended when token context is limited.
+2. **Full Document:** Use the entire document for comprehensive guidance. This is recommended when you have sufficient token context available.
+
+Choose the appropriate option based on your current token context and needs.
 
 ---
 
@@ -14,12 +19,12 @@ This document provides comprehensive guidelines for AI-assisted development. For
 5. Do not make architectural or style decisions unless explicitly asked.
 
 ### Context Priority
-1. `ai-docs/PRD.md` – Product vision
+1. `.ai/active-context.md` – Current context, token limits, and active task
 2. `ai-docs/SRS.md` – Technical specification
-3. `ai-docs/TASKS.md` – Active features
+3. `ai-docs/PRD.md` – Product vision
 4. `ai-docs/SYSTEM-ARCHITECTURE.md` – Architecture
 5. `ai-docs/TECHNICAL.md` – Conventions
-6. `.ai/active-context.md` – Current context
+6. `ai-docs/TASKS.md` – Reference for task history and future work
 
 ### Task Focus
 - Work on one feature/task/subtask per session
@@ -40,6 +45,7 @@ This document provides comprehensive guidelines for AI-assisted development. For
 3. **Focus:** Concentrate efforts on the specific task assigned. Avoid unrelated changes or scope creep.
 4. **Quality:** Strive for a clean, organized, well-tested, and secure codebase.
 5. **Collaboration:** This document guides both human developers and the AI assistant for effective teamwork.
+6. **Requirements-Driven:** All development decisions should align with the requirements specified in `ai-docs/SRS.md` and `ai-docs/PRD.md`.
 
 ## 📚 Project Context & Understanding
 
