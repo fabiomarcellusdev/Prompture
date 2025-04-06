@@ -1,6 +1,6 @@
 # 🐞 TEMPLATE: Fix Documentation
 
-**Date Fixed:** YYYY-MM-DD  
+**Date Fixed:** MM-DD-YYYY 
 **Affected Area:** [API / Auth / DB / UI / etc.]  
 **Related Tasks or Commits:** [#task-id or commit hash]
 

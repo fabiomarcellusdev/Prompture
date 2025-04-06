@@ -138,7 +138,7 @@ Track token usage toward 8000 tokens and notify me when we're close.
 ## 9. 🔄 Archive a Completed AI Session
 
 ``` 
-Summarize this AI session for archival in `.ai/archived-summaries/YYYY-MM-DD_summary.md`.
+Summarize this AI session for archival in `.ai/archived-summaries/MM-DD-YYYY.md`.
 
 Include:
 - Major decisions

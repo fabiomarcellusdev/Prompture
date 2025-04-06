@@ -74,7 +74,7 @@ When ending a session or hitting token limits:
    ```
 2. Save it to:
    ```
-   .ai/archived-summaries/YYYY-MM-DD_summary.md
+   .ai/archived-summaries/MM-DD-YYYY.md
    ```
 3. Update `.ai/active-context.md` using the archive or regenerate using AI.
 

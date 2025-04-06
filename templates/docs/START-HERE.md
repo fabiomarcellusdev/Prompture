@@ -48,7 +48,7 @@ Please:
 
 When ending a session:
 1. Ask the AI to summarize the session
-2. Save the summary to `ai-docs/context/archived-summaries/YYYY-MM-DD_summary.md`
+2. Save the summary to `ai-docs/context/archived-summaries/MM-DD-YYYY.md`
 3. Update `ai-docs/requirements/TASKS.md` with completed items
 4. Run `prompture context --task "Next task"` to prepare for next session
 

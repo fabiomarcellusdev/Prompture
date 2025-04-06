@@ -32,7 +32,7 @@ Choose the appropriate option based on your current token context and needs. The
 
 ### Session End
 1. Summarize work and decisions
-2. Save to `.ai/archived-summaries/YYYY-MM-DD_summary.md`
+2. Save to `.ai/archived-summaries/MM-DD-YYYY.md`
 3. Update `.ai/active-context.md`
 
 ---

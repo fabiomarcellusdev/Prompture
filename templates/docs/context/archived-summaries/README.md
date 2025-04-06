@@ -10,11 +10,11 @@ This directory contains summaries of past AI-assisted development sessions. Thes
 - Track open items and next steps
 
 ## File Naming
-Summaries should be named using the format:
+Summaries should be added to a file using this naming format:
 ```
-YYYY-MM-DD_description.md
+MM-DD-YYYY.md
 ```
-Example: `2024-04-05_user-auth-implementation.md`
+Example: `04-05-2025.md`
 
 ## Summary Format
 Each summary should include:
