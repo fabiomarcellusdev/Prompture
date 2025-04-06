@@ -89,13 +89,13 @@ Choose the appropriate option based on your current token context and needs. The
 
 ## ✨ Code Quality & Style
 
-1. **TypeScript Guidelines:** Use strict typing (avoid `any`). Document complex logic or public APIs with JSDoc.
+1. **Type Guidelines:** Use appropriate typing for your language (e.g., TypeScript strict typing, Python type hints). Document complex logic or public APIs.
 2. **Readability & Maintainability:** Write clean, well-organized code.
 3. **Small Files & Components:**
    * Keep files under **300 lines**. Refactor proactively.
-   * Break down large React components into smaller, single-responsibility components.
+   * Break down large components/modules into smaller, single-responsibility units.
 4. **Avoid Duplication (DRY):** Actively look for and reuse existing functionality. Refactor to eliminate duplication.
-5. **Linting/Formatting:** Ensure all code conforms to project's ESLint/Prettier rules.
+5. **Linting/Formatting:** Ensure all code conforms to project's linting and formatting rules.
 6. **Pattern Consistency:** Adhere to established project patterns. Don't introduce new ones without discussion/explicit instruction. If replacing an old pattern, ensure the old implementation is fully removed.
 7. **File Naming:** Use clear, descriptive names. Avoid "temp", "refactored", "improved", etc., in permanent file names.
 8. **No One-Time Scripts:** Do not commit one-time utility scripts into the main codebase.
