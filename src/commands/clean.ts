@@ -2,14 +2,14 @@ import { Command } from 'commander';
 import fs from 'fs-extra';
 import path from 'path';
 import { logger } from '../utils/logger';
-import { format } from 'date-fns';
+import { format, subDays } from 'date-fns';
 import { glob } from 'glob';
 import inquirer from 'inquirer';
 
 export const cleanCommand = new Command()
   .name('clean')
   .description('Clean up and organize AI documentation')
-  .option('-a, --archive-older-than <days>', 'Archive context files older than specified days', '30')
+  .option('-a, --archive-older-than <days>', 'Archive context files older than specified days', '14')
   .option('-t, --clean-temp', 'Clean temporary files')
   .option('-o, --organize', 'Organize documentation structure')
   .option('-f, --force', 'Force clean without confirmation')
@@ -37,6 +37,9 @@ export const cleanCommand = new Command()
       if (options.organize) {
         await organizeDocs(aiDocsDir, options.force);
       }
+
+      // Archive old summaries
+      await archiveOldSummaries(aiDocsDir, options.force);
 
       logger.success('Cleanup completed successfully!');
     } catch (error) {
@@ -77,10 +80,53 @@ async function archiveOldContext(aiDocsDir: string, days: number, force: boolean
         }
       }
 
-      const archiveName = `context_${format(lastModified, 'yyyy-MM-dd')}.md`;
+      const archiveName = `context_${format(lastModified, 'MM-dd-yyyy')}.md`;
       await fs.copy(activeContextPath, path.join(archivedDir, archiveName));
       await fs.writeFile(activeContextPath, '# Active Context\n\n');
       logger.success(`Archived old context to ${archiveName}`);
+    }
+  }
+}
+
+async function archiveOldSummaries(aiDocsDir: string, force: boolean) {
+  const contextDir = path.join(aiDocsDir, 'context');
+  const summariesDir = path.join(contextDir, 'summaries');
+  const recentSummariesDir = path.join(summariesDir, 'recent-summaries');
+  const archivedSummariesDir = path.join(summariesDir, 'archived-summaries');
+
+  if (!await fs.pathExists(recentSummariesDir)) {
+    return;
+  }
+
+  await fs.ensureDir(archivedSummariesDir);
+
+  const twoWeeksAgo = subDays(new Date(), 14);
+  const weekFolders = await fs.readdir(recentSummariesDir);
+
+  for (const weekFolder of weekFolders) {
+    if (!weekFolder.includes(' to ')) continue;
+
+    const weekStart = new Date(weekFolder.split(' to ')[0]);
+    if (weekStart < twoWeeksAgo) {
+      if (!force) {
+        const { proceed } = await inquirer.prompt({
+          type: 'confirm',
+          name: 'proceed',
+          message: `Archive summaries from ${weekFolder}?`,
+          default: false
+        });
+
+        if (!proceed) {
+          logger.info(`Skipping archiving of ${weekFolder}`);
+          continue;
+        }
+      }
+
+      const sourcePath = path.join(recentSummariesDir, weekFolder);
+      const targetPath = path.join(archivedSummariesDir, weekFolder);
+      
+      await fs.move(sourcePath, targetPath, { overwrite: true });
+      logger.success(`Archived summaries from ${weekFolder}`);
     }
   }
 }
@@ -135,8 +181,10 @@ async function organizeDocs(aiDocsDir: string, force: boolean) {
     'technical',
     'requirements',
     'context',
-    'technical/fixes',
-    'context/archived-summaries'
+    'context/summaries',
+    'context/summaries/recent-summaries',
+    'context/summaries/archived-summaries',
+    'technical/fixes'
   ];
 
   for (const dir of requiredDirs) {

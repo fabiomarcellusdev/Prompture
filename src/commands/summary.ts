@@ -2,45 +2,44 @@ import { Command } from 'commander';
 import fs from 'fs-extra';
 import path from 'path';
 import { logger } from '../utils/logger';
-import { format, startOfWeek, endOfWeek, addDays } from 'date-fns';
-import inquirer from 'inquirer';
+import { format, startOfWeek, endOfWeek } from 'date-fns';
 
 export const summaryCommand = new Command()
   .name('summary')
-  .description('Manage AI session summaries')
+  .description('Create a new AI session summary')
   .option('-c, --create <description>', 'Create a new summary')
-  .option('-l, --list', 'List all summaries')
-  .option('-v, --view <date>', 'View a specific summary by date (MM-DD-YYYY)')
   .option('-f, --force', 'Force create without confirmation')
   .action(async (options) => {
     try {
       const projectDir = process.cwd();
-      const summariesDir = path.join(projectDir, 'ai-docs', 'context', 'archived-summaries');
+      const contextDir = path.join(projectDir, 'ai-docs', 'context');
+      const summariesDir = path.join(contextDir, 'summaries');
+      const recentSummariesDir = path.join(summariesDir, 'recent-summaries');
       
-      if (!await fs.pathExists(summariesDir)) {
-        logger.error('archived-summaries directory not found. Run "prompture init" first.');
+      if (!await fs.pathExists(contextDir)) {
+        logger.error('context directory not found. Run "prompture init" first.');
         process.exit(1);
       }
 
+      // Ensure summaries directories exist
+      await fs.ensureDir(summariesDir);
+      await fs.ensureDir(recentSummariesDir);
+
       if (options.create) {
-        await createSummary(summariesDir, options.create, options.force);
-      } else if (options.list) {
-        await listSummaries(summariesDir);
-      } else if (options.view) {
-        await viewSummary(summariesDir, options.view);
+        await createSummary(recentSummariesDir, options.create, options.force);
       } else {
         // If no options provided, show help
         summaryCommand.help();
       }
     } catch (error) {
-      logger.error('Failed to manage summaries:', error);
+      logger.error('Failed to create summary:', error);
       process.exit(1);
     }
   });
 
 function getWeekFolderName(date: Date): string {
-  const weekStart = startOfWeek(date, { weekStartsOn: 1 }); // Start week on Monday
-  const weekEnd = endOfWeek(date, { weekStartsOn: 1 });
+  const weekStart = startOfWeek(date, { weekStartsOn: 0 }); // Start week on Sunday
+  const weekEnd = endOfWeek(date, { weekStartsOn: 0 });
   return `${format(weekStart, 'MM-dd-yyyy')} to ${format(weekEnd, 'MM-dd-yyyy')}`;
 }
 
@@ -52,7 +51,7 @@ async function createSummary(summariesDir: string, description: string, force: b
   // Ensure week folder exists
   await fs.ensureDir(weekFolderPath);
 
-  const summaryName = `summary_${format(date, 'MM-dd-yyyy')}.md`;
+  const summaryName = `${format(date, 'MM-dd-yyyy')}.md`;
   const summaryPath = path.join(weekFolderPath, summaryName);
 
   const sessionTime = format(date, 'HH:mm:ss');
@@ -90,55 +89,4 @@ ${description}
     await fs.writeFile(summaryPath, header + sessionContent);
     logger.success(`Created new summary: ${summaryName}`);
   }
-}
-
-async function listSummaries(summariesDir: string) {
-  const weekFolders = (await fs.readdir(summariesDir))
-    .filter(item => item.includes(' to '))
-    .sort((a, b) => {
-      // Sort by the start date of the week
-      const dateA = new Date(a.split(' to ')[0]);
-      const dateB = new Date(b.split(' to ')[0]);
-      return dateB.getTime() - dateA.getTime();
-    });
-
-  if (weekFolders.length === 0) {
-    logger.info('No summaries found');
-    return;
-  }
-
-  logger.info('Available summaries by week:');
-  for (const weekFolder of weekFolders) {
-    const weekPath = path.join(summariesDir, weekFolder);
-    const summaries = (await fs.readdir(weekPath))
-      .filter(file => file.startsWith('summary_') && file.endsWith('.md'))
-      .map(file => file.replace('summary_', '').replace('.md', ''))
-      .sort((a, b) => {
-        const dateA = new Date(a);
-        const dateB = new Date(b);
-        return dateB.getTime() - dateA.getTime();
-      });
-
-    if (summaries.length > 0) {
-      logger.info(`\nWeek of ${weekFolder}:`);
-      summaries.forEach(date => {
-        logger.info(`  - ${date}`);
-      });
-    }
-  }
-}
-
-async function viewSummary(summariesDir: string, date: string) {
-  const targetDate = new Date(date);
-  const weekFolderName = getWeekFolderName(targetDate);
-  const weekFolderPath = path.join(summariesDir, weekFolderName);
-  const summaryPath = path.join(weekFolderPath, `summary_${date}.md`);
-  
-  if (!await fs.pathExists(summaryPath)) {
-    logger.error(`No summary found for date: ${date}`);
-    process.exit(1);
-  }
-
-  const content = await fs.readFile(summaryPath, 'utf-8');
-  console.log('\n' + content);
 } 

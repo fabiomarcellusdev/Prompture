@@ -53,7 +53,7 @@ Available document types:
 - Context:
   - `CONTEXT.md` - Project context
   - `active-context.md` - Current AI session context
-  - `archived-summaries/` - Historical AI session summaries
+  - `summaries/` - AI session summaries
 
 ### Update AI context
 
@@ -77,19 +77,13 @@ This will:
 ```bash
 # Create a new summary
 prompture summary --create "Session about authentication implementation"
-
-# List all summaries
-prompture summary --list
-
-# View a specific summary
-prompture summary --view 03-15-2024
 ```
 
 This will:
-- Create timestamped summaries in `ai-docs/context/archived-summaries/`
-- List all available summaries
-- View specific summaries by date
-- Track session context, key points, and next steps
+- Create a new summary in the appropriate weekly folder under `ai-docs/context/summaries/recent-summaries/`
+- Append to an existing day's summary if one exists
+- Use the current week's folder (MM-DD-YYYY to MM-DD-YYYY)
+- Automatically archive summaries older than 2 weeks to `ai-docs/context/summaries/archived-summaries/`
 
 ## Project Structure
 
@@ -110,9 +104,14 @@ project/
 │   └── context/
 │       ├── CONTEXT.md
 │       ├── active-context.md
-│       └── archived-summaries/
-│           └── 03-11-2024 to 03-17-2024/
-│               └── summary_03-15-2024.md
+│       └── summaries/
+│           ├── README.md
+│           ├── recent-summaries/
+│           │   └── MM-DD-YYYY to MM-DD-YYYY/
+│           │       └── MM-DD-YYYY.md
+│           └── archived-summaries/
+│               └── MM-DD-YYYY to MM-DD-YYYY/
+│                   └── MM-DD-YYYY.md
 ├── README.md
 ├── CHANGELOG.md
 └── AI-PROMPTS.md
@@ -129,7 +128,7 @@ The tool generates and maintains several key documentation files:
 - `CONTEXT.md` - Project Context
 - `GLOSSARY.md` - Project Glossary
 - `active-context.md` - Current AI Session Context
-- `archived-summaries/*.md` - Historical AI Session Summaries
+- `summaries/*.md` - AI Session Summaries
 
 ## Contributing
 

@@ -48,7 +48,7 @@ Please:
 
 When ending a session:
 1. Ask the AI to summarize the session
-2. Save the summary to `ai-docs/context/archived-summaries/MM-DD-YYYY.md`
+2. Create a summary using `prompture summary --create "Description of the session"`
 3. Update `ai-docs/requirements/TASKS.md` with completed items
 4. Run `prompture context --task "Next task"` to prepare for next session
 
@@ -56,7 +56,7 @@ When ending a session:
 
 - Start each session with fresh context
 - Keep tasks focused and specific
-- Archive summaries after each session
+- Create summaries after each session
 - Update context when switching tasks
 - Track token usage to avoid context loss
 
@@ -64,4 +64,4 @@ When ending a session:
 
 - Check `AI-PROMPTS.md` for specific prompt templates
 - Review `ai-docs/technical/CLEAN-AI-CODE.md` or `ai-docs/technical/ai-code.summary.md` for development rules
-- Look at `ai-docs/context/archived-summaries/` for example sessions 
+- Look at `ai-docs/context/summaries/README.md` for summary structure and examples 
