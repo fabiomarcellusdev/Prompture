@@ -3,7 +3,7 @@
 import { Command } from 'commander';
 import { initProject } from './commands/init';
 import { updateContext } from './commands/context';
-import { generateDocs } from './commands/docs';
+import { generateDocs } from './commands/ai-docs';
 import { version } from '../package.json';
 
 const program = new Command();
@@ -26,8 +26,8 @@ program
   .action(updateContext);
 
 program
-  .command('docs')
-  .description('Generate documentation templates')
+  .command('ai-docs')
+  .description('Generate AI documentation templates')
   .option('-t, --type <type>', 'Document type (PRD, SRS, etc.)')
   .action(generateDocs);
 

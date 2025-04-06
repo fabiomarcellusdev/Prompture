@@ -34,12 +34,12 @@ prompture context [options]
 prompture context --task "Implementing user authentication"
 ```
 
-### `prompture docs`
+### `prompture ai-docs`
 
-Generate documentation templates.
+Generate AI documentation templates.
 
 ```bash
-prompture docs [options]
+prompture ai-docs [options]
 ```
 
 #### Options:
@@ -47,7 +47,7 @@ prompture docs [options]
 
 #### Example:
 ```bash
-prompture docs --type PRD
+prompture ai-docs --type PRD
 ```
 
 ## Project Structure
@@ -59,7 +59,7 @@ When you initialize a new project, the following structure is created:
 ├── services/          # External integrations
 ├── types/             # Global types
 ├── utils/             # Helpers
-├── docs/              # Planning & architecture docs
+├── ai-docs/           # AI documentation templates
 │   └── fixes/        # Fix documentation
 ├── .ai/               # AI memory/context helpers
 │   └── archived-summaries/  # Historical AI session summaries
@@ -71,7 +71,7 @@ When you initialize a new project, the following structure is created:
 The CLI tool uses the following configuration files:
 
 - `package.json`: Project configuration
-- `docs/*.md`: Various documentation templates
+- `ai-docs/*.md`: Various documentation templates
 
 ## Error Handling
 

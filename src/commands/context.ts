@@ -5,7 +5,7 @@ import { logger } from '../utils/logger';
 export async function updateContext(options: { task: string }) {
   try {
     const contextPath = path.join(process.cwd(), '.ai', 'active-context.md');
-    const tasksPath = path.join(process.cwd(), 'docs', 'TASKS.md');
+    const tasksPath = path.join(process.cwd(), 'ai-docs', 'TASKS.md');
 
     if (!fs.existsSync(contextPath)) {
       throw new Error('Active context file not found. Run `prompture init` first.');

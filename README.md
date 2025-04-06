@@ -5,7 +5,7 @@ A CLI tool for efficient AI-assisted development. Prompture helps you maintain c
 ## Features
 
 - 🚀 Initialize new AI-assisted projects with proper structure
-- 📝 Generate documentation templates (PRD, SRS, etc.)
+- 📝 Generate AI documentation templates (PRD, SRS, etc.)
 - 🔄 Manage AI context files
 - 🎯 Track development tasks
 - 📚 Maintain project documentation
@@ -26,7 +26,7 @@ prompture init
 
 This will create a new project with:
 - Standard directory structure
-- Documentation templates
+- AI documentation templates
 - AI context management files
 
 ### Update AI context
@@ -35,10 +35,10 @@ This will create a new project with:
 prompture context --task "Your current task description"
 ```
 
-### Generate documentation
+### Generate AI documentation
 
 ```bash
-prompture docs --type PRD
+prompture ai-docs --type PRD
 ```
 
 Available document types:
@@ -56,7 +56,7 @@ Available document types:
 ├── services/          # External integrations
 ├── types/             # Global types
 ├── utils/             # Helpers
-├── docs/              # Planning & architecture docs
+├── ai-docs/           # AI documentation templates
 ├── .ai/               # AI memory/context helpers
 └── scripts/           # Utility scripts
 ```

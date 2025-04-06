@@ -21,7 +21,7 @@ export async function generateDocs(options: { type: string }) {
     }
 
     const templatePath = path.join(__dirname, '../../templates', DOC_TEMPLATES[docType]);
-    const outputPath = path.join(process.cwd(), 'docs', DOC_TEMPLATES[docType]);
+    const outputPath = path.join(process.cwd(), 'ai-docs', DOC_TEMPLATES[docType]);
 
     if (fs.existsSync(outputPath)) {
       const overwrite = await prompter.confirm(`File ${DOC_TEMPLATES[docType]} already exists. Overwrite?`);
