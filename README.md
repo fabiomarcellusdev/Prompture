@@ -5,10 +5,11 @@ A CLI tool for efficient AI-assisted development. Prompture helps you maintain c
 ## Features
 
 - 🚀 Initialize new AI-assisted projects with proper structure
-- 📝 Generate AI documentation templates (PRD, SRS, etc.)
+- 📝 Generate AI documentation templates
 - 🔄 Manage AI context files
 - 🎯 Track development tasks
 - 📚 Maintain project documentation
+- 🔒 Manage .gitignore entries for AI-related files
 
 ## Installation
 
@@ -29,36 +30,70 @@ This will create a new project with:
 - AI documentation templates
 - AI context management files
 
+### Generate AI documentation
+
+```bash
+prompture docs --type <type>
+```
+
+Available document types:
+- Root level:
+  - `START-HERE.md` - Getting started guide
+  - `GLOSSARY.md` - Project glossary
+- Technical:
+  - `SYSTEM-ARCHITECTURE.md` - System architecture documentation
+  - `TECHNICAL.md` - Technical documentation
+  - `CLEAN-AI-CODE.md` - AI coding guidelines
+  - `fixes/` - Directory for tracking fixes
+- Requirements:
+  - `PRD.md` - Product Requirements Document
+  - `SRS.md` - Software Requirements Specification
+  - `TASKS.md` - Task Breakdown
+- Context:
+  - `CONTEXT.md` - Project context
+  - `active-context.md` - Current AI session context
+  - `archived-summaries/` - Historical AI session summaries
+
 ### Update AI context
 
 ```bash
 prompture context --task "Your current task description"
 ```
 
-### Generate AI documentation
+### Manage .gitignore entries
 
 ```bash
-prompture ai-docs --type PRD
+prompture gitignore
 ```
 
-Available document types:
-- PRD (Product Requirements Document)
-- SRS (Software Requirements Specification)
-- TECHNICAL (Technical Documentation)
-- TASKS (Task Breakdown)
-- CONTEXT (Project Context)
-- GLOSSARY (Project Glossary)
+This will:
+- Create a .gitignore file if it doesn't exist
+- Add AI-related entries if they're missing
+- Preserve existing entries
 
 ## Project Structure
 
 ```
-├── src/               # Application code
-├── services/          # External integrations
-├── types/             # Global types
-├── utils/             # Helpers
-├── ai-docs/           # AI documentation templates
-├── .ai/               # AI memory/context helpers
-└── scripts/           # Utility scripts
+project/
+├── ai-docs/
+│   ├── START-HERE.md
+│   ├── GLOSSARY.md
+│   ├── technical/
+│   │   ├── SYSTEM-ARCHITECTURE.md
+│   │   ├── TECHNICAL.md
+│   │   ├── CLEAN-AI-CODE.md
+│   │   └── fixes/
+│   ├── requirements/
+│   │   ├── PRD.md
+│   │   ├── SRS.md
+│   │   └── TASKS.md
+│   └── context/
+│       ├── CONTEXT.md
+│       ├── active-context.md
+│       └── archived-summaries/
+├── README.md
+├── CHANGELOG.md
+└── AI-PROMPTS.md
 ```
 
 ## Documentation
