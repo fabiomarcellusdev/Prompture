@@ -2,21 +2,20 @@
 
 This document provides comprehensive guidelines for AI-assisted development. You have two options for using this document:
 
-1. **Quick Reference (⚡️):** Use only the Quick Start Guide section (marked with ⚡️) for essential, immediate actions. This is recommended when token context is limited.
-2. **Full Document:** Use the entire document for comprehensive guidance. This is recommended when you have sufficient token context available.
+1. **Quick Reference (⚡️):** Use only the Quick Start Guide section (marked with ⚡️) for essential, immediate actions. This is recommended when token context is limited (estimated ~500 tokens).
+2. **Full Document:** Use the entire document for comprehensive guidance. This is recommended when you have sufficient token context available (estimated ~3,500 tokens).
 
-Choose the appropriate option based on your current token context and needs.
+Choose the appropriate option based on your current token context and needs. The Quick Start Guide provides all essential information for immediate tasks while keeping token usage minimal.
 
 ---
 
 ## ⚡️ Quick Start Guide
 
 ### Session Setup
-1. Review `.ai/active-context.md` for current context and token limit
-2. Check `ai-docs/TASKS.md` for current task details
-3. Set up token tracking for the session
-4. Prepare to notify when approaching token limit
-5. Do not make architectural or style decisions unless explicitly asked.
+1. Review `.ai/active-context.md` for current context, token limit, and active task
+2. Set up token tracking for the session
+3. Prepare to notify when approaching token limit
+4. Do not make architectural or style decisions unless explicitly asked.
 
 ### Context Priority
 1. `.ai/active-context.md` – Current context, token limits, and active task
@@ -28,7 +27,7 @@ Choose the appropriate option based on your current token context and needs.
 
 ### Task Focus
 - Work on one feature/task/subtask per session
-- Reference task from `TASKS.md`
+- Reference task from `.ai/active-context.md`
 - Avoid multiple tasks in one prompt
 
 ### Session End
@@ -51,11 +50,12 @@ Choose the appropriate option based on your current token context and needs.
 
 1. **Documentation First:**
    * **Always** check for and thoroughly review relevant project documentation *before* starting any task. This includes in order of priority of information:
+     * `.ai/active-context.md` (Current context and active task)
      * Product Requirements Documents (PRDs)
      * `README.md` (Project overview, setup, patterns, technology stack)
      * `ai-docs/SYSTEM-ARCHITECTURE.md` (System architecture, component relationships)
      * `ai-docs/TECHNICAL.md` (Technical specifications, established patterns)
-     * `ai-docs/TASKS.md` (Current development tasks, requirements)
+     * `ai-docs/TASKS.md` (Task history and future work)
    * If documentation is missing, unclear, or conflicts with the request, **ask for clarification**.
 2. **Architecture Adherence:**
    * Understand and respect module boundaries, data flow, system interfaces, and component dependencies outlined in `ai-docs/SYSTEM-ARCHITECTURE.md`.
@@ -67,13 +67,13 @@ Choose the appropriate option based on your current token context and needs.
 ## ⚙️ Task Execution & Workflow
 
 1. **Task Definition:**
-   * Clearly understand the task requirements, acceptance criteria, and any dependencies from `ai-docs/TASKS.md` and the PRD.
+   * Clearly understand the task requirements, acceptance criteria, and any dependencies from `.ai/active-context.md` and the PRD.
 2. **Systematic Change Protocol:** Before making significant changes:
    * **Identify Impact:** Determine affected components, dependencies, and potential side effects.
    * **Plan:** Outline the steps. Tackle one logical change or file at a time.
    * **Verify Testing:** Confirm how the change will be tested. Add tests if necessary *before* implementing (see TDD).
 3. **Progress Tracking:**
-   * Update `ai-docs/TASKS.md` upon task completion or if requirements change during implementation.
+   * Update `.ai/active-context.md` with task progress and update `ai-docs/TASKS.md` for task history.
 
 ## 🤖 AI Collaboration & Prompting
 
