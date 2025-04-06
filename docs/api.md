@@ -62,6 +62,7 @@ When you initialize a new project, the following structure is created:
 ├── docs/              # Planning & architecture docs
 │   └── fixes/        # Fix documentation
 ├── .ai/               # AI memory/context helpers
+│   └── archived-summaries/  # Historical AI session summaries
 └── scripts/           # Utility scripts
 ```
 
@@ -70,7 +71,6 @@ When you initialize a new project, the following structure is created:
 The CLI tool uses the following configuration files:
 
 - `package.json`: Project configuration
-- `.ai/active-context.md`: Current AI session context
 - `docs/*.md`: Various documentation templates
 
 ## Error Handling
