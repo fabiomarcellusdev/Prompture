@@ -6,7 +6,7 @@ This file serves as a **template and guide** for defining the architecture of yo
 Use it alongside `SRS.md` and `PRD.md`.
 
 🎯 Always remind your AI assistant to:
-> "Track token usage toward [YOUR TOKEN LIMIT], and notify me when we’re close."
+> "Track token usage toward [YOUR TOKEN LIMIT], and notify me when we're close."
 
 ---
 
