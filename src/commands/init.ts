@@ -13,6 +13,7 @@ export async function initProject(options: { dir: string }) {
     await fs.ensureDir(path.join(projectDir, 'docs'));
     await fs.ensureDir(path.join(projectDir, 'docs', 'fixes'));
     await fs.ensureDir(path.join(projectDir, '.ai'));
+    await fs.ensureDir(path.join(projectDir, '.ai', 'archived-summaries'));
     await fs.ensureDir(path.join(projectDir, 'scripts'));
 
     // Copy template files
@@ -32,6 +33,8 @@ export async function initProject(options: { dir: string }) {
       'docs/fixes/TEMPLATE-fix-doc.md': path.join(__dirname, '../../../templates/fixes/TEMPLATE-fix-doc.md'),
       'docs/fixes/README.md': path.join(__dirname, '../../../templates/fixes/README.md'),
       '.ai/active-context.md': path.join(__dirname, '../../../templates/active-context.md'),
+      '.ai/archived-summaries/README.md': path.join(__dirname, '../../../templates/archived-summaries/README.md'),
+      '.ai/archived-summaries/2024-04-05_example-summary.md': path.join(__dirname, '../../../templates/archived-summaries/2024-04-05_example-summary.md'),
     };
 
     for (const [dest, source] of Object.entries(templates)) {
