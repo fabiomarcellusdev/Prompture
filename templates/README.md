@@ -1,4 +1,4 @@
-# 🧩 Project Name
+# 🚀 Project Starter Kit
 
 ## 🔁 Context Reminder
 If working with an AI assistant, always start with:
@@ -89,10 +89,17 @@ This project is built to be AI-compatible in token-limited environments (8k toke
 
 - Use `active-context.md` to summarize sessions
 - Archive old sessions to `.ai/archived-summaries/`
-- Use CLI or scripts to update AI memory (`scripts/update_active_context.sh`)
+- Use CLI to update AI memory (`prompture context -t "Your task"`)
 
 ---
 
 ## 8. 📜 License
 
 MIT – feel free to use, improve, and contribute. 
+
+## 🛠 Features
+
+- AI-optimized documentation templates
+- Token usage tracking
+- Context management
+- Use CLI to update AI memory (`prompture context -t "Your task"`) 

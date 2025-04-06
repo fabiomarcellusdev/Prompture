@@ -44,17 +44,17 @@ Use `docs/AI-PROMPTS.md` to generate each file via AI.
 
 ## 🤖 Step 3: Use AI to Build Features
 
-1. **Generate `.ai/active-context.md`**
-   - Use this command:
+1. **Update active context**
+   - Use the CLI command:
      ```bash
-     ./scripts/update_active_context.sh
+     prompture context -t "Your current task description"
      ```
    - Or use the AI regeneration prompt in `CLEAN-AI-CODE.md` or `AI-PROMPTS.md`
 
 2. **Start your AI session with:**
    ``` 
    You're assisting with my project. Here's the project context:
-   [Paste .ai/active-context.md]
+   [Paste ai-docs/context/active-context.md]
 
    We're working on:
    [Paste one task block from TASKS.md]
