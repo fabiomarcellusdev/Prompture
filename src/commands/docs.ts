@@ -1,6 +1,7 @@
 import { Command } from 'commander';
 import fs from 'fs-extra';
 import path from 'path';
+import inquirer from 'inquirer';
 
 type DocType = 'PRD' | 'SRS' | 'SYSTEM-ARCHITECTURE' | 'TECHNICAL' | 'TASKS' | 'CONTEXT' | 'GLOSSARY' | 'START-HERE' | 'CLEAN-AI-CODE' | 'FIXES' | 'ARCHIVED-SUMMARIES';
 
@@ -46,8 +47,19 @@ export const docsCommand = new Command()
         const targetPath = path.join(targetDir, templateInfo.path);
 
         if (await fs.pathExists(targetPath)) {
-          console.error(`Error: ${templateInfo.path} already exists in ${targetDir}`);
-          process.exit(1);
+          const { confirm } = await inquirer.prompt([
+            {
+              type: 'confirm',
+              name: 'confirm',
+              message: `${templateInfo.path} already exists in ${targetDir}. Overwrite?`,
+              default: false
+            }
+          ]);
+
+          if (!confirm) {
+            console.log('Operation cancelled.');
+            return;
+          }
         }
 
         await fs.ensureDir(targetDir);
