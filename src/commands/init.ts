@@ -13,25 +13,49 @@ export const initCommand = new Command()
       const projectDir = path.resolve(options.dir);
       
       // Create necessary directories
-      await fs.ensureDir(path.join(projectDir, '.ai'));
-      await fs.ensureDir(path.join(projectDir, '.ai', 'archived-summaries'));
       await fs.ensureDir(path.join(projectDir, 'ai-docs'));
-      await fs.ensureDir(path.join(projectDir, 'ai-docs', 'fixes'));
+      await fs.ensureDir(path.join(projectDir, 'ai-docs', 'technical'));
+      await fs.ensureDir(path.join(projectDir, 'ai-docs', 'requirements'));
+      await fs.ensureDir(path.join(projectDir, 'ai-docs', 'context'));
+      await fs.ensureDir(path.join(projectDir, 'ai-docs', 'technical', 'fixes'));
+      await fs.ensureDir(path.join(projectDir, 'ai-docs', 'context', 'archived-summaries'));
       
       // Copy template files
       const templatesDir = path.join(__dirname, '..', '..', 'templates');
-      await fs.copy(path.join(templatesDir, 'active-context.md'), path.join(projectDir, '.ai', 'active-context.md'));
-      await fs.copy(path.join(templatesDir, 'CLEAN-AI-CODE.md'), path.join(projectDir, 'ai-docs', 'CLEAN-AI-CODE.md'));
-      await fs.copy(path.join(templatesDir, 'PRD.md'), path.join(projectDir, 'ai-docs', 'PRD.md'));
-      await fs.copy(path.join(templatesDir, 'SRS.md'), path.join(projectDir, 'ai-docs', 'SRS.md'));
-      await fs.copy(path.join(templatesDir, 'SYSTEM-ARCHITECTURE.md'), path.join(projectDir, 'ai-docs', 'SYSTEM-ARCHITECTURE.md'));
-      await fs.copy(path.join(templatesDir, 'TECHNICAL.md'), path.join(projectDir, 'ai-docs', 'TECHNICAL.md'));
-      await fs.copy(path.join(templatesDir, 'TASKS.md'), path.join(projectDir, 'ai-docs', 'TASKS.md'));
+      
+      // Root level files
+      await fs.copy(path.join(templatesDir, 'README.md'), path.join(projectDir, 'README.md'));
+      await fs.copy(path.join(templatesDir, 'CHANGELOG.md'), path.join(projectDir, 'CHANGELOG.md'));
+      await fs.copy(path.join(templatesDir, 'AI-PROMPTS.md'), path.join(projectDir, 'AI-PROMPTS.md'));
+      
+      // Docs root files
+      await fs.copy(path.join(templatesDir, 'docs', 'START-HERE.md'), path.join(projectDir, 'ai-docs', 'START-HERE.md'));
+      await fs.copy(path.join(templatesDir, 'docs', 'GLOSSARY.md'), path.join(projectDir, 'ai-docs', 'GLOSSARY.md'));
+      
+      // Technical docs
+      await fs.copy(path.join(templatesDir, 'docs', 'technical', 'SYSTEM-ARCHITECTURE.md'), path.join(projectDir, 'ai-docs', 'technical', 'SYSTEM-ARCHITECTURE.md'));
+      await fs.copy(path.join(templatesDir, 'docs', 'technical', 'TECHNICAL.md'), path.join(projectDir, 'ai-docs', 'technical', 'TECHNICAL.md'));
+      await fs.copy(path.join(templatesDir, 'docs', 'technical', 'CLEAN-AI-CODE.md'), path.join(projectDir, 'ai-docs', 'technical', 'CLEAN-AI-CODE.md'));
+      
+      // Requirements docs
+      await fs.copy(path.join(templatesDir, 'docs', 'requirements', 'PRD.md'), path.join(projectDir, 'ai-docs', 'requirements', 'PRD.md'));
+      await fs.copy(path.join(templatesDir, 'docs', 'requirements', 'SRS.md'), path.join(projectDir, 'ai-docs', 'requirements', 'SRS.md'));
+      await fs.copy(path.join(templatesDir, 'docs', 'requirements', 'TASKS.md'), path.join(projectDir, 'ai-docs', 'requirements', 'TASKS.md'));
+      
+      // Context docs
+      await fs.copy(path.join(templatesDir, 'docs', 'context', 'CONTEXT.md'), path.join(projectDir, 'ai-docs', 'context', 'CONTEXT.md'));
+      await fs.copy(path.join(templatesDir, 'docs', 'context', 'active-context.md'), path.join(projectDir, 'ai-docs', 'context', 'active-context.md'));
+      
+      // Copy fixes templates
+      await fs.copy(
+        path.join(templatesDir, 'docs', 'technical', 'fixes'),
+        path.join(projectDir, 'ai-docs', 'technical', 'fixes')
+      );
       
       // Copy archived-summaries contents
       await fs.copy(
-        path.join(templatesDir, 'archived-summaries'),
-        path.join(projectDir, '.ai', 'archived-summaries')
+        path.join(templatesDir, 'docs', 'context', 'archived-summaries'),
+        path.join(projectDir, 'ai-docs', 'context', 'archived-summaries')
       );
       
       console.log('✅ Project initialized successfully');
