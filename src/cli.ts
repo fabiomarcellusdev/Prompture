@@ -6,6 +6,7 @@ import { docsCommand } from './commands/docs';
 import { contextCommand } from './commands/context';
 import { gitignoreCommand } from './commands/gitignore';
 import { cleanCommand } from './commands/clean';
+import { summaryCommand } from './commands/summary';
 import { version } from '../package.json';
 
 const program = new Command();
@@ -20,5 +21,6 @@ program.addCommand(docsCommand);
 program.addCommand(contextCommand);
 program.addCommand(gitignoreCommand);
 program.addCommand(cleanCommand);
+program.addCommand(summaryCommand);
 
 program.parse(); 

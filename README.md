@@ -10,6 +10,7 @@ A CLI tool for efficient AI-assisted development. Prompture helps you maintain c
 - 🎯 Track development tasks
 - 📚 Maintain project documentation
 - 🔒 Manage .gitignore entries for AI-related files
+- 📋 Create and manage AI session summaries
 
 ## Installation
 
@@ -71,6 +72,25 @@ This will:
 - Add AI-related entries if they're missing
 - Preserve existing entries
 
+### Manage AI session summaries
+
+```bash
+# Create a new summary
+prompture summary --create "Session about authentication implementation"
+
+# List all summaries
+prompture summary --list
+
+# View a specific summary
+prompture summary --view 2024-03-15
+```
+
+This will:
+- Create timestamped summaries in `ai-docs/context/archived-summaries/`
+- List all available summaries
+- View specific summaries by date
+- Track session context, key points, and next steps
+
 ## Project Structure
 
 ```
@@ -91,6 +111,7 @@ project/
 │       ├── CONTEXT.md
 │       ├── active-context.md
 │       └── archived-summaries/
+│           └── summary_YYYY-MM-DD.md
 ├── README.md
 ├── CHANGELOG.md
 └── AI-PROMPTS.md
@@ -106,7 +127,8 @@ The tool generates and maintains several key documentation files:
 - `TASKS.md` - Task Breakdown
 - `CONTEXT.md` - Project Context
 - `GLOSSARY.md` - Project Glossary
-- `.ai/active-context.md` - Current AI Session Context
+- `active-context.md` - Current AI Session Context
+- `archived-summaries/*.md` - Historical AI Session Summaries
 
 ## Contributing
 
