@@ -1,7 +1,45 @@
+import { Command } from 'commander';
 import fs from 'fs-extra';
 import path from 'path';
 import { prompter } from '../utils/prompter';
 import { logger } from '../utils/logger';
+
+export const initCommand = new Command()
+  .name('init')
+  .description('Initialize a new AI-assisted project')
+  .option('-d, --dir <directory>', 'Project directory', '.')
+  .action(async (options) => {
+    try {
+      const projectDir = path.resolve(options.dir);
+      
+      // Create necessary directories
+      await fs.ensureDir(path.join(projectDir, '.ai'));
+      await fs.ensureDir(path.join(projectDir, '.ai', 'archived-summaries'));
+      await fs.ensureDir(path.join(projectDir, 'ai-docs'));
+      await fs.ensureDir(path.join(projectDir, 'ai-docs', 'fixes'));
+      
+      // Copy template files
+      const templatesDir = path.join(__dirname, '..', '..', 'templates');
+      await fs.copy(path.join(templatesDir, 'active-context.md'), path.join(projectDir, '.ai', 'active-context.md'));
+      await fs.copy(path.join(templatesDir, 'CLEAN-AI-CODE.md'), path.join(projectDir, 'ai-docs', 'CLEAN-AI-CODE.md'));
+      await fs.copy(path.join(templatesDir, 'PRD.md'), path.join(projectDir, 'ai-docs', 'PRD.md'));
+      await fs.copy(path.join(templatesDir, 'SRS.md'), path.join(projectDir, 'ai-docs', 'SRS.md'));
+      await fs.copy(path.join(templatesDir, 'SYSTEM-ARCHITECTURE.md'), path.join(projectDir, 'ai-docs', 'SYSTEM-ARCHITECTURE.md'));
+      await fs.copy(path.join(templatesDir, 'TECHNICAL.md'), path.join(projectDir, 'ai-docs', 'TECHNICAL.md'));
+      await fs.copy(path.join(templatesDir, 'TASKS.md'), path.join(projectDir, 'ai-docs', 'TASKS.md'));
+      
+      // Copy archived-summaries contents
+      await fs.copy(
+        path.join(templatesDir, 'archived-summaries'),
+        path.join(projectDir, '.ai', 'archived-summaries')
+      );
+      
+      console.log('✅ Project initialized successfully');
+    } catch (error) {
+      console.error('Error initializing project:', error);
+      process.exit(1);
+    }
+  });
 
 export async function initProject(options: { dir: string }) {
   const projectDir = path.resolve(options.dir);

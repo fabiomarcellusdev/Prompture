@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
-import { initProject } from './commands/init';
-import { updateContext } from './commands/context';
-import { generateDocs } from './commands/ai-docs';
+import { initCommand } from './commands/init';
+import { contextCommand } from './commands/context';
+import { docsCommand } from './commands/docs';
+import { gitignoreCommand } from './commands/gitignore';
 import { version } from '../package.json';
 
 const program = new Command();
@@ -13,22 +14,9 @@ program
   .description('A CLI tool for efficient AI-assisted development')
   .version(version);
 
-program
-  .command('init')
-  .description('Initialize a new AI-assisted project')
-  .option('-d, --dir <directory>', 'Project directory', '.')
-  .action(initProject);
-
-program
-  .command('context')
-  .description('Update AI context files')
-  .option('-t, --task <task>', 'Current task description')
-  .action(updateContext);
-
-program
-  .command('ai-docs')
-  .description('Generate AI documentation templates')
-  .option('-t, --type <type>', 'Document type (PRD, SRS, etc.)')
-  .action(generateDocs);
+program.addCommand(initCommand);
+program.addCommand(contextCommand);
+program.addCommand(docsCommand);
+program.addCommand(gitignoreCommand);
 
 program.parse(process.argv); 
