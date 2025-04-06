@@ -10,7 +10,7 @@ export const summaryCommand = new Command()
   .description('Manage AI session summaries')
   .option('-c, --create <description>', 'Create a new summary')
   .option('-l, --list', 'List all summaries')
-  .option('-v, --view <date>', 'View a specific summary by date (YYYY-MM-DD)')
+  .option('-v, --view <date>', 'View a specific summary by date (MM-DD-YYYY)')
   .option('-f, --force', 'Force create without confirmation')
   .action(async (options) => {
     try {
@@ -41,7 +41,7 @@ export const summaryCommand = new Command()
 function getWeekFolderName(date: Date): string {
   const weekStart = startOfWeek(date, { weekStartsOn: 1 }); // Start week on Monday
   const weekEnd = endOfWeek(date, { weekStartsOn: 1 });
-  return `${format(weekStart, 'yyyy-MM-dd')} to ${format(weekEnd, 'yyyy-MM-dd')}`;
+  return `${format(weekStart, 'MM-dd-yyyy')} to ${format(weekEnd, 'MM-dd-yyyy')}`;
 }
 
 async function createSummary(summariesDir: string, description: string, force: boolean) {
@@ -52,7 +52,7 @@ async function createSummary(summariesDir: string, description: string, force: b
   // Ensure week folder exists
   await fs.ensureDir(weekFolderPath);
 
-  const summaryName = `summary_${format(date, 'yyyy-MM-dd')}.md`;
+  const summaryName = `summary_${format(date, 'MM-dd-yyyy')}.md`;
   const summaryPath = path.join(weekFolderPath, summaryName);
 
   const sessionTime = format(date, 'HH:mm:ss');
@@ -95,7 +95,12 @@ ${description}
 async function listSummaries(summariesDir: string) {
   const weekFolders = (await fs.readdir(summariesDir))
     .filter(item => item.includes(' to '))
-    .sort((a, b) => b.localeCompare(a));
+    .sort((a, b) => {
+      // Sort by the start date of the week
+      const dateA = new Date(a.split(' to ')[0]);
+      const dateB = new Date(b.split(' to ')[0]);
+      return dateB.getTime() - dateA.getTime();
+    });
 
   if (weekFolders.length === 0) {
     logger.info('No summaries found');
@@ -108,7 +113,11 @@ async function listSummaries(summariesDir: string) {
     const summaries = (await fs.readdir(weekPath))
       .filter(file => file.startsWith('summary_') && file.endsWith('.md'))
       .map(file => file.replace('summary_', '').replace('.md', ''))
-      .sort((a, b) => b.localeCompare(a));
+      .sort((a, b) => {
+        const dateA = new Date(a);
+        const dateB = new Date(b);
+        return dateB.getTime() - dateA.getTime();
+      });
 
     if (summaries.length > 0) {
       logger.info(`\nWeek of ${weekFolder}:`);

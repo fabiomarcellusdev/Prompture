@@ -82,7 +82,7 @@ prompture summary --create "Session about authentication implementation"
 prompture summary --list
 
 # View a specific summary
-prompture summary --view 2024-03-15
+prompture summary --view 03-15-2024
 ```
 
 This will:
@@ -111,7 +111,8 @@ project/
 │       ├── CONTEXT.md
 │       ├── active-context.md
 │       └── archived-summaries/
-│           └── summary_YYYY-MM-DD.md
+│           └── 03-11-2024 to 03-17-2024/
+│               └── summary_03-15-2024.md
 ├── README.md
 ├── CHANGELOG.md
 └── AI-PROMPTS.md
