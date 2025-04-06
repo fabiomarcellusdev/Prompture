@@ -6,61 +6,84 @@ import { logger } from '../utils/logger';
 
 export const initCommand = new Command()
   .name('init')
-  .description('Initialize a new AI-assisted project')
-  .option('-d, --dir <directory>', 'Project directory', '.')
-  .action(async (options) => {
+  .description('Initialize a new project with AI documentation structure')
+  .action(async () => {
     try {
-      const projectDir = path.resolve(options.dir);
+      const projectDir = process.cwd();
       
       // Create necessary directories
-      await fs.ensureDir(path.join(projectDir, 'ai-docs'));
       await fs.ensureDir(path.join(projectDir, 'ai-docs', 'technical'));
       await fs.ensureDir(path.join(projectDir, 'ai-docs', 'requirements'));
       await fs.ensureDir(path.join(projectDir, 'ai-docs', 'context'));
       await fs.ensureDir(path.join(projectDir, 'ai-docs', 'technical', 'fixes'));
       await fs.ensureDir(path.join(projectDir, 'ai-docs', 'context', 'archived-summaries'));
-      
-      // Copy template files
-      const templatesDir = path.join(__dirname, '..', '..', 'templates');
-      
-      // Root level files
-      await fs.copy(path.join(templatesDir, 'README.md'), path.join(projectDir, 'README.md'));
-      await fs.copy(path.join(templatesDir, 'CHANGELOG.md'), path.join(projectDir, 'CHANGELOG.md'));
-      await fs.copy(path.join(templatesDir, 'AI-PROMPTS.md'), path.join(projectDir, 'AI-PROMPTS.md'));
-      
-      // Docs root files
-      await fs.copy(path.join(templatesDir, 'docs', 'START-HERE.md'), path.join(projectDir, 'ai-docs', 'START-HERE.md'));
-      await fs.copy(path.join(templatesDir, 'docs', 'GLOSSARY.md'), path.join(projectDir, 'ai-docs', 'GLOSSARY.md'));
-      
-      // Technical docs
-      await fs.copy(path.join(templatesDir, 'docs', 'technical', 'SYSTEM-ARCHITECTURE.md'), path.join(projectDir, 'ai-docs', 'technical', 'SYSTEM-ARCHITECTURE.md'));
-      await fs.copy(path.join(templatesDir, 'docs', 'technical', 'TECHNICAL.md'), path.join(projectDir, 'ai-docs', 'technical', 'TECHNICAL.md'));
-      await fs.copy(path.join(templatesDir, 'docs', 'technical', 'CLEAN-AI-CODE.md'), path.join(projectDir, 'ai-docs', 'technical', 'CLEAN-AI-CODE.md'));
-      
-      // Requirements docs
-      await fs.copy(path.join(templatesDir, 'docs', 'requirements', 'PRD.md'), path.join(projectDir, 'ai-docs', 'requirements', 'PRD.md'));
-      await fs.copy(path.join(templatesDir, 'docs', 'requirements', 'SRS.md'), path.join(projectDir, 'ai-docs', 'requirements', 'SRS.md'));
-      await fs.copy(path.join(templatesDir, 'docs', 'requirements', 'TASKS.md'), path.join(projectDir, 'ai-docs', 'requirements', 'TASKS.md'));
-      
-      // Context docs
-      await fs.copy(path.join(templatesDir, 'docs', 'context', 'CONTEXT.md'), path.join(projectDir, 'ai-docs', 'context', 'CONTEXT.md'));
-      await fs.copy(path.join(templatesDir, 'docs', 'context', 'active-context.md'), path.join(projectDir, 'ai-docs', 'context', 'active-context.md'));
-      
-      // Copy fixes templates
+
+      // Copy root level files
+      const rootFiles = {
+        'CHANGELOG.md': path.join(__dirname, '../../../templates/CHANGELOG.md'),
+        'AI-PROMPTS.md': path.join(__dirname, '../../../templates/AI-PROMPTS.md')
+      };
+
+      for (const [target, source] of Object.entries(rootFiles)) {
+        await fs.copy(source, path.join(projectDir, target));
+      }
+
+      // Create AI documentation README.md
+      const readmeContent = `# AI Documentation
+
+This directory contains all AI-related documentation for the project.
+
+## Documentation Structure
+
+- \`technical/\` - Technical documentation and code standards
+- \`requirements/\` - Project requirements and specifications
+- \`context/\` - AI context and session management
+
+## CLI Commands
+
+- \`prompture docs --type <TYPE>\` - Generate documentation
+- \`prompture context -t "Task"\` - Update AI context
+- \`prompture gitignore\` - Manage .gitignore entries
+
+## Getting Started
+
+See [START-HERE.md](START-HERE.md) for detailed instructions on using the AI documentation system.
+`;
+      await fs.writeFile(path.join(projectDir, 'ai-docs', 'README.md'), readmeContent);
+
+      // Copy documentation files
+      const docFiles = {
+        'ai-docs/START-HERE.md': path.join(__dirname, '../../../templates/docs/START-HERE.md'),
+        'ai-docs/GLOSSARY.md': path.join(__dirname, '../../../templates/docs/GLOSSARY.md'),
+        'ai-docs/technical/SYSTEM-ARCHITECTURE.md': path.join(__dirname, '../../../templates/docs/technical/SYSTEM-ARCHITECTURE.md'),
+        'ai-docs/technical/TECHNICAL.md': path.join(__dirname, '../../../templates/docs/technical/TECHNICAL.md'),
+        'ai-docs/technical/CLEAN-AI-CODE.md': path.join(__dirname, '../../../templates/docs/technical/CLEAN-AI-CODE.md'),
+        'ai-docs/requirements/PRD.md': path.join(__dirname, '../../../templates/docs/requirements/PRD.md'),
+        'ai-docs/requirements/SRS.md': path.join(__dirname, '../../../templates/docs/requirements/SRS.md'),
+        'ai-docs/requirements/TASKS.md': path.join(__dirname, '../../../templates/docs/requirements/TASKS.md'),
+        'ai-docs/context/CONTEXT.md': path.join(__dirname, '../../../templates/docs/context/CONTEXT.md'),
+        'ai-docs/context/active-context.md': path.join(__dirname, '../../../templates/docs/context/active-context.md')
+      };
+
+      for (const [target, source] of Object.entries(docFiles)) {
+        await fs.copy(source, path.join(projectDir, target));
+      }
+
+      // Copy directories
       await fs.copy(
-        path.join(templatesDir, 'docs', 'technical', 'fixes'),
-        path.join(projectDir, 'ai-docs', 'technical', 'fixes')
+        path.join(__dirname, '../../../templates/docs/technical/fixes'),
+        path.join(projectDir, 'ai-docs/technical/fixes')
       );
-      
-      // Copy archived-summaries contents
+
       await fs.copy(
-        path.join(templatesDir, 'docs', 'context', 'archived-summaries'),
-        path.join(projectDir, 'ai-docs', 'context', 'archived-summaries')
+        path.join(__dirname, '../../../templates/docs/context/archived-summaries'),
+        path.join(projectDir, 'ai-docs/context/archived-summaries')
       );
-      
-      console.log('✅ Project initialized successfully');
+
+      logger.success('Project initialized successfully!');
+      logger.info('Run `prompture docs --type <TYPE>` to generate specific documentation.');
     } catch (error) {
-      console.error('Error initializing project:', error);
+      logger.error('Failed to initialize project:', error);
       process.exit(1);
     }
   });
