@@ -9,10 +9,10 @@ export const contextCommand = new Command()
   .option('-t, --task <task>', 'Current task description')
   .action(async (options) => {
     try {
-      const contextPath = path.join(process.cwd(), '.ai', 'active-context.md');
+      const contextPath = path.join(process.cwd(), 'ai-docs', 'context', 'active-context.md');
       
       if (!await fs.pathExists(contextPath)) {
-        console.error('Error: .ai/active-context.md not found. Run "prompture init" first.');
+        console.error('Error: ai-docs/context/active-context.md not found. Run "prompture init" first.');
         process.exit(1);
       }
 
@@ -43,8 +43,8 @@ export const contextCommand = new Command()
 
 export async function updateContext(options: { task: string }) {
   try {
-    const contextPath = path.join(process.cwd(), '.ai', 'active-context.md');
-    const tasksPath = path.join(process.cwd(), 'ai-docs', 'TASKS.md');
+    const contextPath = path.join(process.cwd(), 'ai-docs', 'context', 'active-context.md');
+    const tasksPath = path.join(process.cwd(), 'ai-docs', 'requirements', 'TASKS.md');
 
     if (!fs.existsSync(contextPath)) {
       throw new Error('Active context file not found. Run `prompture init` first.');
