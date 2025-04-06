@@ -2,7 +2,7 @@
 
 ## 🔁 Instructions
 Start every new AI session with:
-"You're assisting with a full stack app. Here's the current project context. Track token usage toward a limit of [YOUR LIMIT HERE]. Let me know when we're close."
+"You're assisting with a full stack app. Here's the current project context. Track token usage toward a limit of [YOUR LIMIT HERE]. Let me know when we're close. After each response put "Token Estimate # {total estimated tokens used so far in current chat session}"
 
 ---
 
