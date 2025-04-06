@@ -1,6 +1,6 @@
-# 🚀 Getting Started – Full Stack Starter Kit Guide
+# 🚀 Getting Started – Project Starter Kit Guide
 
-Welcome! This guide helps you set up and use this full stack, AI-optimized starter kit from scratch.
+Welcome! This guide helps you set up and use this AI-optimized starter kit from scratch.
 
 ---
 
@@ -53,7 +53,7 @@ Use `docs/AI-PROMPTS.md` to generate each file via AI.
 
 2. **Start your AI session with:**
    ``` 
-   You're assisting with my full stack app. Here's the project context:
+   You're assisting with my project. Here's the project context:
    [Paste .ai/active-context.md]
 
    We're working on:

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 
 import os
 from datetime import datetime
@@ -23,7 +24,7 @@ def update_active_context():
 
 ## 🔁 Instructions
 Start every new AI session with:
-"You're assisting with a full stack app. Here’s the current project context. Track token usage toward a limit of [YOUR LIMIT HERE]. Let me know when we're close."
+"You're assisting with my project. Here's the current project context. Track token usage toward a limit of [YOUR LIMIT HERE]. Let me know when we're close."
 
 ---
 

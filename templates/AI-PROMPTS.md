@@ -1,4 +1,4 @@
-# 🧠 AI-PROMPTS.md – High-Efficiency Prompts for Full Stack Development
+# 🧠 AI-PROMPTS.md – High-Efficiency Prompts for Project Development
 
 These prompts are optimized to reduce revisions and maximize output clarity when working with an AI assistant.
 
@@ -7,7 +7,7 @@ These prompts are optimized to reduce revisions and maximize output clarity when
 ## 1. 📄 Generate PRD (docs/PRD.md)
 
 ```
-I'm starting a new full stack web app. Help me generate a detailed PRD (Product Requirements Document).
+I'm starting a new project. Help me generate a detailed PRD (Product Requirements Document).
 
 Here's what I know:
 - My idea in 2-3 sentences: [Your idea here]
@@ -27,11 +27,11 @@ Fill any gaps and optimize for clarity.
 Using the PRD below, generate a detailed SRS (Software Requirements Specification).
 
 Include:
-- Stack and architecture
+- System architecture and components
 - User roles and permissions
 - Functional & non-functional requirements
-- Database model suggestions
-- API endpoints with methods/params
+- Data model suggestions
+- API/Interface specifications
 - Error handling strategy
 - Monitoring/logging plan
 
@@ -50,7 +50,7 @@ From this SRS, generate a complete task breakdown using:
     - Tasks
       - Subtasks
 
-Ensure logical development order (backend → frontend → polish → tests) and clarity for assignment.
+Ensure logical development order and clarity for assignment.
 
 [Paste SRS.md]
 ```
@@ -60,7 +60,7 @@ Ensure logical development order (backend → frontend → polish → tests) and
 ## 4. 🧠 Create Project Summary (docs/CONTEXT.md)
 
 ```
-Summarize this app into a reusable context for `.ai/active-context.md`.
+Summarize this project into a reusable context for `ai-docs/context/active-context.md`.
 
 Include:
 - Project summary
@@ -90,7 +90,7 @@ Format:
 ## 6. 📝 Generate Developer README (README.md)
 
 ``` 
-Write a clean root-level README.md for a full stack project.
+Write a clean root-level README.md for the project.
 
 Include:
 - Project overview and goals
@@ -98,7 +98,6 @@ Include:
 - Folder structure
 - Dev setup instructions
 - Documentation index
-- AI context usage strategy
 ```
 
 ---
@@ -131,7 +130,7 @@ You're assisting with my full stack app. Here's the project context from `.ai/ac
 We're currently working on:
 [Paste ONE task or subtask block from TASKS.md]
 
-Track token usage toward 8000 tokens and notify me when we’re close.
+Track token usage toward 8000 tokens and notify me when we're close.
 ```
 
 ---
@@ -162,7 +161,7 @@ Include:
 - A blank section for 'Current Task'
 - A task snapshot (from TASKS.md)
 
-Here’s the source content:
+Here's the source content:
 [Paste CONTEXT.md]
 [Paste TASKS.md]
 ```

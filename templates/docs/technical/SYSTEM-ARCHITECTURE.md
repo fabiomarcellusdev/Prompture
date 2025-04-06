@@ -1,8 +1,7 @@
-
-# SYSTEM ARCHITECTURE TEMPLATE
+# 🏗 SYSTEM-ARCHITECTURE.md
 
 ## 🔁 Context Reminder
-This file serves as a **template and guide** for defining the architecture of your full stack application.  
+This file serves as a **template and guide** for defining the architecture of your project.  
 Use it alongside `SRS.md` and `PRD.md`.
 
 🎯 Always remind your AI assistant to:
