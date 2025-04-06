@@ -16,10 +16,19 @@ export async function initProject(options: { dir: string }) {
 
     // Copy template files
     const templates = {
-      'README.md': path.join(__dirname, '../../templates/README.md'),
-      'docs/PRD.md': path.join(__dirname, '../../templates/PRD.md'),
-      'docs/SRS.md': path.join(__dirname, '../../templates/SRS.md'),
-      '.ai/active-context.md': path.join(__dirname, '../../templates/active-context.md'),
+      'README.md': path.join(__dirname, '../../../templates/README.md'),
+      'docs/PRD.md': path.join(__dirname, '../../../templates/PRD.md'),
+      'docs/SRS.md': path.join(__dirname, '../../../templates/SRS.md'),
+      'docs/TECHNICAL.md': path.join(__dirname, '../../../templates/TECHNICAL.md'),
+      'docs/SYSTEM-ARCHITECTURE.md': path.join(__dirname, '../../../templates/SYSTEM-ARCHITECTURE.md'),
+      'docs/TASKS.md': path.join(__dirname, '../../../templates/TASKS.md'),
+      'docs/CONTEXT.md': path.join(__dirname, '../../../templates/CONTEXT.md'),
+      'docs/GLOSSARY.md': path.join(__dirname, '../../../templates/GLOSSARY.md'),
+      'docs/CHANGELOG.md': path.join(__dirname, '../../../templates/CHANGELOG.md'),
+      'docs/CLEAN-AI-CODE.md': path.join(__dirname, '../../../templates/CLEAN-AI-CODE.md'),
+      'docs/AI-PROMPTS.md': path.join(__dirname, '../../../templates/AI-PROMPTS.md'),
+      'docs/ai-code.summary.md': path.join(__dirname, '../../../templates/ai-code.summary.md'),
+      '.ai/active-context.md': path.join(__dirname, '../../../templates/active-context.md'),
     };
 
     for (const [dest, source] of Object.entries(templates)) {
