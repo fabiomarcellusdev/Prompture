@@ -11,6 +11,7 @@ export async function initProject(options: { dir: string }) {
     await fs.ensureDir(projectDir);
     await fs.ensureDir(path.join(projectDir, 'src'));
     await fs.ensureDir(path.join(projectDir, 'docs'));
+    await fs.ensureDir(path.join(projectDir, 'docs', 'fixes'));
     await fs.ensureDir(path.join(projectDir, '.ai'));
     await fs.ensureDir(path.join(projectDir, 'scripts'));
 
@@ -28,6 +29,8 @@ export async function initProject(options: { dir: string }) {
       'docs/CLEAN-AI-CODE.md': path.join(__dirname, '../../../templates/CLEAN-AI-CODE.md'),
       'docs/AI-PROMPTS.md': path.join(__dirname, '../../../templates/AI-PROMPTS.md'),
       'docs/ai-code.summary.md': path.join(__dirname, '../../../templates/ai-code.summary.md'),
+      'docs/fixes/TEMPLATE-fix-doc.md': path.join(__dirname, '../../../templates/fixes/TEMPLATE-fix-doc.md'),
+      'docs/fixes/README.md': path.join(__dirname, '../../../templates/fixes/README.md'),
       '.ai/active-context.md': path.join(__dirname, '../../../templates/active-context.md'),
     };
 
