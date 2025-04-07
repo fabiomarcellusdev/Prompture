@@ -9,7 +9,10 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/cli.js",
-    "test": "jest",
+    "dev": "tsx watch src/index.ts",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest watch",
     "lint": "eslint . --ext .ts",
     "prepare": "npm run build"
   },
@@ -36,10 +39,12 @@
     "@types/node": "^20.17.30",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
+    "@vitest/coverage-v8": "^3.1.1",
     "eslint": "^8.56.0",
     "jest": "^29.7.0",
     "ts-jest": "^29.3.1",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.1"
   },
   "engines": {
     "node": ">=14.0.0"
