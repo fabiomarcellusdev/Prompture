@@ -5,6 +5,7 @@ import { logger } from '../utils/logger';
 import { format, subDays } from 'date-fns';
 import { glob } from 'glob';
 import inquirer from 'inquirer';
+import { CLEAN_COMMAND_FAILURE_MESSAGES, CLEAN_COMMAND_SUCCESS_MESSAGES } from '../utils/constants';
 
 export const cleanCommand = new Command()
   .name('clean')
@@ -19,7 +20,7 @@ export const cleanCommand = new Command()
       const aiDocsDir = path.join(projectDir, 'ai-docs');
       
       if (!await fs.pathExists(aiDocsDir)) {
-        logger.error('ai-docs directory not found. Run "prompture init" first.');
+        logger.error(CLEAN_COMMAND_FAILURE_MESSAGES.AI_DOCS_DIR_NOT_FOUND);
         process.exit(1);
       }
 
@@ -41,19 +42,19 @@ export const cleanCommand = new Command()
       // Archive old summaries
       await archiveOldSummaries(aiDocsDir, options.force);
 
-      logger.success('Cleanup completed successfully!');
+      logger.success(CLEAN_COMMAND_SUCCESS_MESSAGES.CLEAN_UP_SUCCESS);
     } catch (error) {
-      logger.error('Failed to clean documentation:', error);
+      logger.error(CLEAN_COMMAND_FAILURE_MESSAGES.FAILED_TO_CLEAN_UP, error);
       process.exit(1);
     }
   });
 
 async function archiveOldContext(aiDocsDir: string, days: number, force: boolean) {
-  const contextDir = path.join(aiDocsDir, 'context');
-  const archivedDir = path.join(contextDir, 'archived-summaries');
+  const contextDir = path.join(aiDocsDir, 'docs', 'context');
+  const archivedDir = path.join(contextDir, 'summaries','archived-summaries');
   
   if (!await fs.pathExists(contextDir)) {
-    logger.warning('context directory not found, skipping archiving');
+    logger.warning(CLEAN_COMMAND_FAILURE_MESSAGES.CONTEXT_DIR_NOT_FOUND);
     return;
   }
 
@@ -75,7 +76,7 @@ async function archiveOldContext(aiDocsDir: string, days: number, force: boolean
         });
 
         if (!proceed) {
-          logger.info('Skipping archiving of active context');
+          logger.info(CLEAN_COMMAND_SUCCESS_MESSAGES.SKIPPED_ARCHIVING_ACTIVE_CONTEXT);
           return;
         }
       }
@@ -83,13 +84,13 @@ async function archiveOldContext(aiDocsDir: string, days: number, force: boolean
       const archiveName = `context_${format(lastModified, 'MM-dd-yyyy')}.md`;
       await fs.copy(activeContextPath, path.join(archivedDir, archiveName));
       await fs.writeFile(activeContextPath, '# Active Context\n\n');
-      logger.success(`Archived old context to ${archiveName}`);
+      logger.success(CLEAN_COMMAND_SUCCESS_MESSAGES.archivedContextTo(archiveName));
     }
   }
 }
 
 async function archiveOldSummaries(aiDocsDir: string, force: boolean) {
-  const contextDir = path.join(aiDocsDir, 'context');
+  const contextDir = path.join(aiDocsDir, 'docs','context');
   const summariesDir = path.join(contextDir, 'summaries');
   const recentSummariesDir = path.join(summariesDir, 'recent-summaries');
   const archivedSummariesDir = path.join(summariesDir, 'archived-summaries');
@@ -171,7 +172,7 @@ async function organizeDocs(aiDocsDir: string, force: boolean) {
     });
 
     if (!proceed) {
-      logger.info('Skipping documentation organization');
+      logger.info(CLEAN_COMMAND_SUCCESS_MESSAGES.SKIPPED_ORGANIZING_DOCS);
       return;
     }
   }
@@ -188,7 +189,7 @@ async function organizeDocs(aiDocsDir: string, force: boolean) {
   ];
 
   for (const dir of requiredDirs) {
-    await fs.ensureDir(path.join(aiDocsDir, dir));
+    await fs.ensureDir(path.join(aiDocsDir, 'docs', dir));
   }
 
   // Move any loose files to appropriate directories
@@ -198,7 +199,7 @@ async function organizeDocs(aiDocsDir: string, force: boolean) {
       continue;
     }
 
-    const filePath = path.join(aiDocsDir, file);
+    const filePath = path.join(aiDocsDir, 'docs', file);
     const stats = await fs.stat(filePath);
     
     if (stats.isFile()) {
@@ -216,7 +217,7 @@ async function organizeDocs(aiDocsDir: string, force: boolean) {
         }
 
         if (targetDir) {
-          const targetPath = path.join(aiDocsDir, targetDir, file);
+          const targetPath = path.join(aiDocsDir, 'docs',targetDir, file);
           await fs.move(filePath, targetPath, { overwrite: true });
           logger.info(`Moved ${file} to ${targetDir}/`);
         }
