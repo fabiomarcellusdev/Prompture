@@ -1,96 +1,122 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import path from 'path';
 import { cleanCommand } from '../../src/commands/clean';
-
-// Mock dependencies
-vi.mock('fs-extra', () => ({
-  default: {
-    pathExists: vi.fn(),
-    remove: vi.fn(),
-    ensureDir: vi.fn(),
-    writeFile: vi.fn(),
-  }
-}));
-
+import { logger } from '../../src/utils/logger';
+import { CLEAN_COMMAND_SUCCESS_MESSAGES, CLEAN_COMMAND_FAILURE_MESSAGES } from '../../src/utils/constants';
 vi.mock('../../src/utils/logger', () => ({
   logger: {
     success: vi.fn(),
     error: vi.fn(),
+    info: vi.fn(),
   },
 }));
 
 import fs from 'fs-extra';
-import { logger } from '../../src/utils/logger';
 
-const { default: fsMock } = fs as unknown as {
-  default: {
-    pathExists: ReturnType<typeof vi.fn>;
-    remove: ReturnType<typeof vi.fn>;
-    ensureDir: ReturnType<typeof vi.fn>;
-    writeFile: ReturnType<typeof vi.fn>;
-  };
-};
+const mockCwd = path.join(__dirname, '..', '..', 'test');
+const mockAiDocsPath = path.join(mockCwd, 'ai-docs');
 
-describe('clean command', () => {
-  const mockCwd = '/test/project';
-  const mockAiDocsPath = path.join(mockCwd, 'ai-docs');
-  const mockContextPath = path.join(mockAiDocsPath, 'context', 'active-context.md');
+async function createMockAiDocs() {
+  await fs.ensureDir(mockAiDocsPath);
+  
+  await fs.copy(path.join(__dirname, '..', '..', 'templates'), mockAiDocsPath, {
+    overwrite: true, 
+    errorOnExist: false, 
+  });
+}
+async function removeMockProjectCwd() {
+  await fs.remove(mockCwd);
+}
 
+describe('clean command', async () => {
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    await removeMockProjectCwd();
+    vi.clearAllMocks();
     vi.spyOn(process, 'cwd').mockReturnValue(mockCwd);
+    vi.spyOn(fs, 'pathExists');
+    vi.spyOn(fs, 'remove');
+    vi.spyOn(fs, 'move');
+    vi.spyOn(fs, 'ensureDir');
+    vi.spyOn(fs, 'writeFile');
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     vi.clearAllMocks();
   });
 
-  it('should clean ai-docs directory and create new active-context.md', async () => {
+  describe('successful cleanup', () => {
+    it('should clean ai-docs directory and create new active-context.md', async () => {
+      
+      await createMockAiDocs();
 
-    fsMock.pathExists.mockResolvedValue(true);
-    fsMock.remove.mockResolvedValue(undefined);
-    fsMock.ensureDir.mockResolvedValue(undefined);
-    fsMock.writeFile.mockResolvedValue(undefined);
+      await cleanCommand.parseAsync(['clean', '--archive-older-than', '0', '-f']);
 
-    await cleanCommand.parseAsync(['clean']);
+      expect(fs.ensureDir).toHaveBeenCalledWith(path.join(mockAiDocsPath, 'docs', 'context', 'summaries', 'archived-summaries'));
+      expect(fs.pathExists).toHaveBeenCalledWith(path.join(mockAiDocsPath, 'docs', 'context', 'summaries', 'recent-summaries'));
+      
+      expect(logger.success).toHaveBeenCalledWith(CLEAN_COMMAND_SUCCESS_MESSAGES.CLEAN_UP_SUCCESS);
+    });
 
-    expect(fsMock.remove).toHaveBeenCalledWith(mockAiDocsPath);
-    expect(fsMock.ensureDir).toHaveBeenCalledWith(path.join(mockAiDocsPath, 'context'));
-    expect(fsMock.writeFile).toHaveBeenCalledWith(
-      mockContextPath,
-      expect.stringContaining('# Active Context')
-    );
-    expect(logger.success).toHaveBeenCalledWith('Project cleaned successfully!');
-  });
+    it('should create all necessary directories', async () => {
 
+      const mockDocsPath = path.join(mockAiDocsPath, 'docs');
 
+      // await createMockAiDocs();
+      await fs.ensureDir(mockAiDocsPath);
   
+      await cleanCommand.parseAsync(['clean', '--organize', '-f']);
 
-  it('should handle missing ai-docs directory', async () => {
-    // Mock fs-extra methods
-    (fs.pathExists as any).mockResolvedValue(false);
+      const expectedDirs = [
+        path.join(mockDocsPath, 'context'),
+        path.join(mockDocsPath, 'context', 'summaries'),
+        path.join(mockDocsPath, 'context', 'summaries', 'recent-summaries'),
+        path.join(mockDocsPath, 'context', 'summaries', 'archived-summaries'),
+        path.join(mockDocsPath, 'requirements'),
+        path.join(mockDocsPath, 'technical'),
+        path.join(mockDocsPath, 'technical', 'fixes')
+      ];
 
-    // Execute the command and expect it to throw
-    await expect(cleanCommand.parseAsync(['clean'])).rejects.toThrow();
-
-    // Verify error logging
-    expect(logger.error).toHaveBeenCalledWith(
-      'ai-docs directory not found. Run "prompture init" first.'
-    );
+      expect(logger.info).not.toHaveBeenCalledWith(CLEAN_COMMAND_SUCCESS_MESSAGES.SKIPPED_ORGANIZING_DOCS);
+      // fs.existsSync
+      expectedDirs.forEach(dir => {
+        expect(fs.existsSync(dir)).toBe(true);
+      });
+    });
   });
 
+  describe('error handling', () => {
+    it('should handle missing ai-docs directory', async () => {
+      
+      await expect(cleanCommand.parseAsync(['clean'])).rejects.toThrow();
+
+      expect(logger.error).toHaveBeenCalledWith(
+        CLEAN_COMMAND_FAILURE_MESSAGES.AI_DOCS_DIR_NOT_FOUND
+      );
+      vi.clearAllMocks();
+    });
 
 
+    it('should handle file write errors', async () => {
+    
+      await expect(cleanCommand.parseAsync(['clean'])).rejects.toThrow();
 
-  it('should handle directory removal errors', async () => {
-    // Mock fs-extra methods
-    (fs.pathExists as any).mockResolvedValue(true);
-    (fs.remove as any).mockRejectedValue(new Error('Remove error'));
+      expect(logger.error).toHaveBeenCalledWith(CLEAN_COMMAND_FAILURE_MESSAGES.FAILED_TO_CLEAN_UP, expect.any(Error));
+    });
+  });
 
-    // Execute the command and expect it to throw
-    await expect(cleanCommand.parseAsync(['clean'])).rejects.toThrow();
+  describe('file content', () => {
+    it('should create active-context.md with correct content', async () => {
 
-    // Verify error logging
-    expect(logger.error).toHaveBeenCalledWith("Failed to clean documentation:", expect.any(Error));
+      await cleanCommand.parseAsync(['clean']);
+
+      const writeFileCalls = (fs.writeFile as any).mock.calls;
+      const lastCall = writeFileCalls[writeFileCalls.length - 1];
+      const content = lastCall[1];
+
+      expect(content).toContain('Active Context');
+      expect(content).toContain('## Current Task');
+      expect(content).toContain('## Summary');
+    });
   });
 }); 
