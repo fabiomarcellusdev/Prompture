@@ -45,14 +45,11 @@ describe('init command', () => {
       expect(fs.ensureDir).toHaveBeenCalledWith(expect.stringContaining('ai-docs/requirements'));
       expect(fs.ensureDir).toHaveBeenCalledWith(expect.stringContaining('ai-docs/technical'));
       expect(fs.ensureDir).toHaveBeenCalledWith(expect.stringContaining('ai-docs/context'));
-      expect(fs.ensureDir).toHaveBeenCalledWith(expect.stringContaining('ai-docs/context/summaries'));
-      expect(fs.ensureDir).toHaveBeenCalledWith(expect.stringContaining('ai-docs/context/summaries/recent-summaries'));
-      expect(fs.ensureDir).toHaveBeenCalledWith(expect.stringContaining('ai-docs/context/summaries/archived-summaries'));
 
       // Verify template copying
       expect(fs.copy).toHaveBeenCalledWith(
-        expect.stringContaining('templates/AI-PROMPTS.md'),
-        expect.stringContaining('ai-docs/AI-PROMPTS.md')
+        expect.stringContaining('templates/ai-prompts.md'),
+        expect.stringContaining('ai-docs/ai-prompts.md')
       );
       expect(fs.copy).toHaveBeenCalledWith(
         expect.stringContaining('templates/CHANGELOG.md'),
@@ -154,36 +151,4 @@ describe('init command', () => {
     });
   });
 
-  describe('summary creation', () => {
-    it('should create example summary in the correct location', async () => {
-      // Mock fs-extra methods
-      (fs.pathExists as any).mockResolvedValue(false);
-      (fs.ensureDir as any).mockResolvedValue(undefined);
-      (fs.copy as any).mockResolvedValue(undefined);
-      (fs.writeFile as any).mockResolvedValue(undefined);
-
-      // Execute the command
-      await initCommand.parseAsync(['init']);
-
-      // Verify summary creation
-      expect(fs.writeFile).toHaveBeenCalledWith(
-        expect.stringContaining('ai-docs/context/summaries/recent-summaries'),
-        expect.stringContaining('AI Session Summary')
-      );
-    });
-
-    it('should handle summary creation errors', async () => {
-      // Mock fs-extra methods
-      (fs.pathExists as any).mockResolvedValue(false);
-      (fs.ensureDir as any).mockResolvedValue(undefined);
-      (fs.copy as any).mockResolvedValue(undefined);
-      (fs.writeFile as any).mockRejectedValue(new Error('Write error'));
-
-      // Execute the command and expect it to throw
-      await expect(initCommand.parseAsync(['init'])).rejects.toThrow();
-
-      // Verify error logging
-      expect(logger.error).toHaveBeenCalledWith('Failed to initialize project:', expect.any(Error));
-    });
-  });
 }); 

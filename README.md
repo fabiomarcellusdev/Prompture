@@ -10,7 +10,6 @@ A CLI tool for efficient AI-assisted development. Prompture helps you maintain c
 - 🎯 Track development tasks
 - 📚 Maintain project documentation
 - 🔒 Manage .gitignore entries for AI-related files
-- 📋 Create and manage AI session summaries
 
 ## Installation
 
@@ -31,16 +30,10 @@ This will create a new project with:
 - AI documentation templates
 - AI context management files
 
-### Generate AI documentation
-
-```bash
-prompture docs --type <type>
-```
-
 Available document types:
 - Root level:
-  - `START-HERE.md` - Getting started guide
-  - `GLOSSARY.md` - Project glossary
+  - `start-here.md` - Getting started guide
+  - `glossary.md` - Project glossary
 - Technical:
   - `SYSTEM-ARCHITECTURE.md` - System architecture documentation
   - `TECHNICAL.md` - Technical documentation
@@ -52,8 +45,7 @@ Available document types:
   - `TASKS.md` - Task Breakdown
 - Context:
   - `CONTEXT.md` - Project context
-  - `active-context.md` - Current AI session context
-  - `summaries/` - AI session summaries
+  - `active-task-context.md` - Current AI session context
 
 ### Update AI context
 
@@ -72,49 +64,28 @@ This will:
 - Add AI-related entries if they're missing
 - Preserve existing entries
 
-### Manage AI session summaries
-
-```bash
-# Create a new summary
-prompture summary --create "Session about authentication implementation"
-```
-
-This will:
-- Create a new summary in the appropriate weekly folder under `ai-docs/context/summaries/recent-summaries/`
-- Append to an existing day's summary if one exists
-- Use the current week's folder (MM-DD-YYYY to MM-DD-YYYY)
-- Automatically archive summaries older than 2 weeks to `ai-docs/context/summaries/archived-summaries/`
 
 ## Project Structure
 
 ```
 project/
 ├── ai-docs/
-│   ├── START-HERE.md
-│   ├── GLOSSARY.md
+│   ├── start-here.md
+│   ├── glossary.md
 │   ├── technical/
 │   │   ├── SYSTEM-ARCHITECTURE.md
 │   │   ├── TECHNICAL.md
-│   │   ├── CLEAN-AI-CODE.md
-│   │   └── fixes/
+│   │   └── CLEAN-AI-CODE.md
 │   ├── requirements/
 │   │   ├── PRD.md
 │   │   ├── SRS.md
 │   │   └── TASKS.md
 │   └── context/
 │       ├── CONTEXT.md
-│       ├── active-context.md
-│       └── summaries/
-│           ├── README.md
-│           ├── recent-summaries/
-│           │   └── MM-DD-YYYY to MM-DD-YYYY/
-│           │       └── MM-DD-YYYY.md
-│           └── archived-summaries/
-│               └── MM-DD-YYYY to MM-DD-YYYY/
-│                   └── MM-DD-YYYY.md
+│       └── active-task-context.md
 ├── README.md
 ├── CHANGELOG.md
-└── AI-PROMPTS.md
+└── ai-prompts.md
 ```
 
 ## Documentation
@@ -126,9 +97,8 @@ The tool generates and maintains several key documentation files:
 - `TECHNICAL.md` - Technical Documentation
 - `TASKS.md` - Task Breakdown
 - `CONTEXT.md` - Project Context
-- `GLOSSARY.md` - Project Glossary
-- `active-context.md` - Current AI Session Context
-- `summaries/*.md` - AI Session Summaries
+- `glossary.md` - Project Glossary
+- `active-task-context.md` - Current AI Session Context
 
 ## Contributing
 

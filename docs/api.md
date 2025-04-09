@@ -56,14 +56,8 @@ When you initialize a new project, the following structure is created:
 
 ```
 ├── src/               # Application code
-├── services/          # External integrations
-├── types/             # Global types
 ├── utils/             # Helpers
-├── ai-docs/           # AI documentation templates
-│   └── fixes/        # Fix documentation
-├── .ai/               # AI memory/context helpers
-│   └── archived-summaries/  # Historical AI session summaries
-└── scripts/           # Utility scripts
+└── ai-docs/           # AI documentation templates
 ```
 
 ## Configuration

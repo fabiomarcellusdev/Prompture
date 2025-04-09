@@ -36,9 +36,9 @@ Edit these files using your idea and AI prompts:
 | `docs/SRS.md`          | Turn vision into technical spec           |
 | `docs/TASKS.md`        | Break down features into tasks            |
 | `docs/CONTEXT.md`      | Summarized project context                |
-| `docs/GLOSSARY.md`     | Define technical and domain terms         |
+| `docs/glossary.md`     | Define technical and domain terms         |
 
-Use `docs/AI-PROMPTS.md` to generate each file via AI.
+Use `docs/ai-prompts.md` to generate each file via AI.
 
 ---
 
@@ -49,12 +49,12 @@ Use `docs/AI-PROMPTS.md` to generate each file via AI.
      ```bash
      prompture context -t "Your current task description"
      ```
-   - Or use the AI regeneration prompt in `CLEAN-AI-CODE.md` or `AI-PROMPTS.md`
+   - Or use the AI regeneration prompt in `clean-code-ai.md` or `ai-prompts.md`
 
 2. **Start your AI session with:**
    ``` 
    You're assisting with my project. Here's the project context:
-   [Paste ai-docs/context/active-context.md]
+   [Paste ai-docs/context/active-task-context.md]
 
    We're working on:
    [Paste one task block from TASKS.md]
@@ -64,26 +64,10 @@ Use `docs/AI-PROMPTS.md` to generate each file via AI.
 
 ---
 
-## 🔁 Step 4: Archive & Reset Context
-
-When ending a session or hitting token limits:
-
-1. Ask AI to summarize the session:
-   ``` 
-   Summarize what we accomplished. Include decisions, code outputs, and next steps.
-   ```
-2. Save it to:
-   ```
-   .ai/archived-summaries/MM-DD-YYYY.md
-   ```
-3. Update `.ai/active-context.md` using the archive or regenerate using AI.
-
----
-
-## 🧱 Step 5: Build the App
+## 🧱 Step 4: Build the App
 
 - Build features from `docs/TASKS.md`
-- Keep `.ai/active-context.md` up to date
+- Keep `.ai/active-task-context.md` up to date
 - Follow structure defined in:
   - `docs/SYSTEM-ARCHITECTURE.md`
   - `docs/TECHNICAL.md`
@@ -91,25 +75,6 @@ When ending a session or hitting token limits:
 
 ---
 
-## 🛠 Step 6: Log Fixes When Needed
-
-- For any bug, issue, or refactor, use:
-  - `docs/fixes/TEMPLATE-fix-doc.md`
-  - Log it as `docs/fixes/fix-[short-slug].md`
-- Track affected areas and outcomes
-
----
-
-## 📄 Optional: Add AI Summary for Fresh Sessions
-
-If you're starting fresh, paste this at the top:
-- Contents of `docs/ai-code.summary.md`
-- Followed by `.ai/active-context.md`
-- Then the current task
-
-This keeps AI behavior consistent and efficient.
-
----
 
 ## 📤 Finalize & Launch
 

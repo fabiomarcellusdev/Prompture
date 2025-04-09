@@ -36,11 +36,7 @@ export const initCommand = new Command()
         'ai-docs',
         'ai-docs/requirements',
         'ai-docs/technical',
-        'ai-docs/technical/fixes',
         'ai-docs/context',
-        'ai-docs/context/summaries',
-        'ai-docs/context/summaries/recent-summaries',
-        'ai-docs/context/summaries/archived-summaries'
       ];
 
       for (const dir of dirs) {
@@ -51,7 +47,7 @@ export const initCommand = new Command()
       // Copy root level templates
       const rootTemplatesDir = path.join(__dirname, '../../templates');
       const rootFilesToCopy = [
-        { src: 'AI-PROMPTS.md', dest: 'ai-docs/AI-PROMPTS.md' },
+        { src: 'ai-prompts.md', dest: 'ai-docs/ai-prompts.md' },
         { src: 'CHANGELOG.md', dest: 'ai-docs/CHANGELOG.md' }
       ];
 
@@ -71,10 +67,10 @@ export const initCommand = new Command()
         { src: 'technical/CLEAN-AI-CODE.md', dest: 'ai-docs/technical/CLEAN-AI-CODE.md' },
         { src: 'technical/SYSTEM-ARCHITECTURE.md', dest: 'ai-docs/technical/SYSTEM-ARCHITECTURE.md' },
         { src: 'technical/TECHNICAL.md', dest: 'ai-docs/technical/TECHNICAL.md' },
-        { src: 'context/active-context.md', dest: 'ai-docs/context/active-context.md' },
+        { src: 'context/active-task-context.md', dest: 'ai-docs/context/active-task-context.md' },
         { src: 'context/CONTEXT.md', dest: 'ai-docs/context/CONTEXT.md' },
-        { src: 'START-HERE.md', dest: 'ai-docs/START-HERE.md' },
-        { src: 'GLOSSARY.md', dest: 'ai-docs/GLOSSARY.md' }
+        { src: 'start-here.md', dest: 'ai-docs/start-here.md' },
+        { src: 'glossary.md', dest: 'ai-docs/glossary.md' }
       ];
 
       for (const { src, dest } of docsFilesToCopy) {
@@ -84,61 +80,13 @@ export const initCommand = new Command()
         logger.success(`Copied template: ${dest}`);
       }
 
-      // Copy example summaries
-      const summariesTemplatesDir = path.join(docsTemplatesDir, 'context/summaries');
-      const summaryFilesToCopy = [
-        { src: '2024-04-05_example.md', dest: 'ai-docs/context/summaries/2024-04-05_example.md' },
-        { src: 'example-summary.md', dest: 'ai-docs/context/summaries/example-summary.md' }
-      ];
+      
 
-      for (const { src, dest } of summaryFilesToCopy) {
-        const sourcePath = path.join(summariesTemplatesDir, src);
-        const destPath = path.join(process.cwd(), dest);
-        await fs.copy(sourcePath, destPath);
-        logger.success(`Copied template: ${dest}`);
-      }
-
-      // Create current summary
-      const today = new Date();
-      const weekStart = new Date(today);
-      weekStart.setDate(today.getDate() - today.getDay());
-      const weekEnd = new Date(weekStart);
-      weekEnd.setDate(weekStart.getDate() + 6);
-
-      const weekFolder = `${weekStart.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })} to ${weekEnd.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })}`;
-      const summaryDir = path.join(process.cwd(), 'ai-docs/context/summaries/recent-summaries', weekFolder);
-      await fs.ensureDir(summaryDir);
-
-      const summaryFile = path.join(summaryDir, `${today.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })}.md`);
-      await fs.writeFile(summaryFile, `# AI Session Summary - ${today.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })}
-
-## Description
-Example AI session summary.
-
-## Context
-This is an example summary to demonstrate the structure.
-
-## Key Points
-- Example point 1
-- Example point 2
-
-## Next Steps
-- Example next step 1
-- Example next step 2
-
-## Token Usage
-- Input: 0
-- Output: 0
-- Total: 0
-`);
-
-      logger.success('Created example summary');
 
       logger.success('\nProject initialized successfully!');
       logger.info('\nNext steps:');
-      logger.info('1. Review and update the requirements documents in ai-docs/requirements/');
-      logger.info('2. Start your first AI session with: prompture docs');
-      logger.info('3. Create your first summary with: prompture summary --create "Description"');
+      logger.info('Review and update the requirements documents in ai-docs/requirements/');
+      logger.info('Start your first AI session with: prompture docs');
     } catch (error) {
       logger.error('Failed to initialize project:', error);
       process.exit(1);

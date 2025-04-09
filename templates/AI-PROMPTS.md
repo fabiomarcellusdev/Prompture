@@ -1,4 +1,4 @@
-# 🧠 AI-PROMPTS.md – High-Efficiency Prompts for Project Development
+# 🧠 ai-prompts.md – High-Efficiency Prompts for Project Development
 
 These prompts are optimized to reduce revisions and maximize output clarity when working with an AI assistant.
 
@@ -60,7 +60,7 @@ Ensure logical development order and clarity for assignment.
 ## 4. 🧠 Create Project Summary (docs/CONTEXT.md)
 
 ```
-Summarize this project into a reusable context for `ai-docs/context/active-context.md`.
+Summarize this project into a reusable context for `ai-docs/context/active-task-context.md`.
 
 Include:
 - Project summary
@@ -74,7 +74,7 @@ Include:
 
 ---
 
-## 5. 📚 Fill the Glossary (docs/GLOSSARY.md)
+## 5. 📚 Fill the Glossary (docs/glossary.md)
 
 ``` 
 Extract domain-specific and technical terms from the PRD and SRS. Define them clearly and concisely.
@@ -120,12 +120,12 @@ Include:
 
 ---
 
-## 8. 🤖 Start a New AI Session (.ai/active-context.md)
+## 8. 🤖 Start a New AI Session (.ai/active-task-context.md)
 
 ``` 
-You're assisting with my full stack app. Here's the project context from `.ai/active-context.md`:
+You're assisting with my full stack app. Here's the project context from `.ai/active-task-context.md`:
 
-[Paste .ai/active-context.md content]
+[Paste .ai/active-task-context.md content]
 
 We're currently working on:
 [Paste ONE task or subtask block from TASKS.md]
@@ -135,25 +135,10 @@ Track token usage toward 8000 tokens and notify me when we're close.
 
 ---
 
-## 9. 🔄 Archive a Completed AI Session
+## 10. ⚡️ Regenerate `active-task-context.md` Using AI
 
 ``` 
-Summarize this AI session for archival in `.ai/archived-summaries/MM-DD-YYYY.md`.
-
-Include:
-- Major decisions
-- Code/features created
-- Open items or next steps
-
-Limit to ~600 words. Format for clarity.
-```
-
----
-
-## 10. ⚡️ Regenerate `active-context.md` Using AI
-
-``` 
-Generate a new .ai/active-context.md using the latest CONTEXT.md and TASKS.md.
+Generate a new .ai/active-task-context.md using the latest CONTEXT.md and TASKS.md.
 
 Include:
 - Project summary from CONTEXT.md
@@ -175,6 +160,6 @@ Paste this at the start of a new session if context is lost or you're starting f
 [Paste contents of docs/ai-code.summary.md]
 
 Then follow with:
-- .ai/active-context.md
+- .ai/active-task-context.md
 - The current task block from docs/TASKS.md
 ```

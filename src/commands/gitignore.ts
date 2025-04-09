@@ -4,7 +4,6 @@ import path from 'path';
 import inquirer from 'inquirer';
 
 const aiEntries = [
-  '.ai/',
   'ai-docs/'
 ];
 

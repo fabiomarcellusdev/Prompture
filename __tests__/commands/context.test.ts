@@ -10,7 +10,7 @@ vi.mock('../../src/utils/logger');
 
 describe('context command', () => {
   const mockCwd = '/test/project';
-  const mockContextPath = path.join(mockCwd, 'ai-docs', 'context', 'active-context.md');
+  const mockContextPath = path.join(mockCwd, 'ai-docs', 'context', 'active-task-context.md');
 
   beforeEach(() => {
     vi.spyOn(process, 'cwd').mockReturnValue(mockCwd);
@@ -21,7 +21,7 @@ describe('context command', () => {
   });
 
   describe('task update', () => {
-    it('should update task in active-context.md', async () => {
+    it('should update task in active-task-context.md', async () => {
       // Mock fs-extra methods
       (fs.readFile as any).mockResolvedValue('# Active Context\n\n## Current Task\nOld task');
       (fs.writeFile as any).mockResolvedValue(undefined);
@@ -35,10 +35,10 @@ describe('context command', () => {
         mockContextPath,
         expect.stringContaining('## Current Task\nNew task')
       );
-      expect(logger.success).toHaveBeenCalledWith('✅ Task updated in active-context.md');
+      expect(logger.success).toHaveBeenCalledWith('✅ Task updated in active-task-context.md');
     });
 
-    it('should handle missing active-context.md', async () => {
+    it('should handle missing active-task-context.md', async () => {
       // Mock fs-extra methods to throw error
       (fs.readFile as any).mockRejectedValue(new Error('File not found'));
 
@@ -47,7 +47,7 @@ describe('context command', () => {
 
       // Verify error logging
       expect(logger.error).toHaveBeenCalledWith(
-        'Error: ai-docs/context/active-context.md not found. Run "prompture init" first.'
+        'Error: ai-docs/context/active-task-context.md not found. Run "prompture init" first.'
       );
     });
 
@@ -63,7 +63,7 @@ describe('context command', () => {
       expect(logger.error).toHaveBeenCalledWith('Error updating task:', expect.any(Error));
     });
 
-    it('should handle malformed active-context.md', async () => {
+    it('should handle malformed active-task-context.md', async () => {
       // Mock fs-extra methods with malformed content
       (fs.readFile as any).mockResolvedValue('Invalid content without task section');
       (fs.writeFile as any).mockResolvedValue(undefined);
@@ -109,7 +109,7 @@ Next steps here`;
   });
 
   describe('context update', () => {
-    it('should update context in active-context.md', async () => {
+    it('should update context in active-task-context.md', async () => {
       // Mock fs-extra methods
       (fs.readFile as any).mockResolvedValue('# Active Context\n\n## Summary\nOld context');
       (fs.writeFile as any).mockResolvedValue(undefined);
@@ -123,7 +123,7 @@ Next steps here`;
         mockContextPath,
         expect.stringContaining('## Summary\nNew context')
       );
-      expect(logger.success).toHaveBeenCalledWith('✅ Context updated in active-context.md');
+      expect(logger.success).toHaveBeenCalledWith('✅ Context updated in active-task-context.md');
     });
 
     it('should handle missing summary section', async () => {

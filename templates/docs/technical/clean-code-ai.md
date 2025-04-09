@@ -12,13 +12,13 @@ Choose the appropriate option based on your current token context and needs. The
 ## ⚡️ Quick Start Guide
 
 ### Session Setup
-1. Review `.ai/active-context.md` for current context, token limit, and active task
+1. Review `.ai/active-task-context.md` for current context, token limit, and active task
 2. Set up token tracking for the session
 3. Prepare to notify when approaching token limit
 4. Do not make architectural or style decisions unless explicitly asked.
 
 ### Context Priority
-1. `.ai/active-context.md` – Current context, token limits, and active task
+1. `.ai/active-task-context.md` – Current context, token limits, and active task
 2. `ai-docs/SRS.md` – Technical specification
 3. `ai-docs/PRD.md` – Product vision
 4. `ai-docs/SYSTEM-ARCHITECTURE.md` – Architecture
@@ -27,13 +27,8 @@ Choose the appropriate option based on your current token context and needs. The
 
 ### Task Focus
 - Work on one feature/task/subtask per session
-- Reference task from `.ai/active-context.md`
+- Reference task from `.ai/active-task-context.md`
 - Avoid multiple tasks in one prompt
-
-### Session End
-1. Summarize work and decisions
-2. Save to `.ai/archived-summaries/MM-DD-YYYY.md`
-3. Update `.ai/active-context.md`
 
 ---
 
@@ -50,7 +45,7 @@ Choose the appropriate option based on your current token context and needs. The
 
 1. **Documentation First:**
    * **Always** check for and thoroughly review relevant project documentation *before* starting any task. This includes in order of priority of information:
-     * `.ai/active-context.md` (Current context and active task)
+     * `.ai/active-task-context.md` (Current context and active task)
      * Product Requirements Documents (PRDs)
      * `README.md` (Project overview, setup, patterns, technology stack)
      * `ai-docs/SYSTEM-ARCHITECTURE.md` (System architecture, component relationships)
@@ -67,13 +62,13 @@ Choose the appropriate option based on your current token context and needs. The
 ## ⚙️ Task Execution & Workflow
 
 1. **Task Definition:**
-   * Clearly understand the task requirements, acceptance criteria, and any dependencies from `.ai/active-context.md` and the PRD.
+   * Clearly understand the task requirements, acceptance criteria, and any dependencies from `.ai/active-task-context.md` and the PRD.
 2. **Systematic Change Protocol:** Before making significant changes:
    * **Identify Impact:** Determine affected components, dependencies, and potential side effects.
    * **Plan:** Outline the steps. Tackle one logical change or file at a time.
    * **Verify Testing:** Confirm how the change will be tested. Add tests if necessary *before* implementing (see TDD).
 3. **Progress Tracking:**
-   * Update `.ai/active-context.md` with task progress and update `ai-docs/TASKS.md` for task history.
+   * Update `.ai/active-task-context.md` with task progress and update `ai-docs/TASKS.md` for task history.
 
 ## 🤖 AI Collaboration & Prompting
 
